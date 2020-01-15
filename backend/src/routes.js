@@ -1,10 +1,11 @@
 // Getting the express routing module
 const { Router } = require('express');
 const routes = Router();
+const DevController = require('./controller/DevController');
+const SearchController = require('./controller/SearchController');
 
-routes.put('/users/:id', (req, res) => {
-  console.log(req.body);
-  return res.json({ message: 'Hellooo Omnistack' });
-});
+routes.get('/devs', DevController.index);
+routes.post('/devs', DevController.store);
+routes.get('/search', SearchController.index);
 
 module.exports = routes;
