@@ -8,3 +8,8 @@ const DevSchema = new mongoose.Schema({
   bio: String,
   techs: [String]
 });
+
+// mongoose.model(name_to_be_called, schema); 
+// its exporting the way it should be in the database, with just 'Dev' name
+
+module.exports = mongoose.model('Dev', DevSchema);
