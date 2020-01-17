@@ -11,6 +11,14 @@ module.exports = {
     return res.json(devs);
   },
 
+  async show(req, res) {
+    const dev = await Dev.findOne({
+      github_username: req.params.github_username
+    });
+
+    return res.json(dev);
+  },
+
   async store(req, res) {
     const { github_username, techs, latitude, longitude } = req.body;
 
@@ -43,5 +51,13 @@ module.exports = {
 
     return res.json(dev);
 
-  }
+  },
+
+  async update(req, res) {
+    // achar o usuario e atualizar as informações com as quais ele providenciou e manter as padrões
+    // caso ele não tenha alterado nenhuma
+
+  },
+
+  async delete() {},
 }

@@ -1,20 +1,32 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose'); // necessary to connect the application with mongodb
+const mongoose = require('mongoose');
 const routes = require('./routes');
+const cors = require('cors');
 
 mongoose.connect('mongodb+srv://omnistack:omnistack@cluster0-yrhdj.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
-// When using app.use() you are setting this config valid to all the routes
-// if were using app.get() it will be setting this config only for that route
 app.use(express.json());
-// Basically, This way the express will understand requisitions with JSON format
+
+app.use(cors());
+
 app.use(routes);
 
+
 app.listen(5000);
+
+
+// ----------------------------------------------------------------
+// PERSONAL ANNOTATIONS
+
+// When using app.use() you are setting this config valid to all the routes
+// if were using app.get() it will be setting this config only for that route
+
+// app.use(express.json());
+// Basically, This way the express will understand requisitions with JSON format
 
 
 // HTTP METHODS:
