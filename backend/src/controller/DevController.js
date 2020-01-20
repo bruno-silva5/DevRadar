@@ -1,6 +1,7 @@
 const axios = require('axios'); // axios make calls to others avaialble APIs
 const Dev = require('../models/Dev');
 const parseStringAsArray = require('../utils/parseStringAsArray');
+const {findConnections, sendMessage} = require('../websocket');
 
 // index (show all), show (show one), update, destroy
 
@@ -32,7 +33,6 @@ module.exports = {
       const {name = login, avatar_url, bio} = response.data;
 
       const techsArray = parseStringAsArray(techs);
-      console.log(techsArray);
 
       const location = {
         type: 'Point',
@@ -47,17 +47,19 @@ module.exports = {
         techs: techsArray,
         location
       });
+
+      // Filter the connections that are at least 10 Kilometers of distance tops
+      // and the new Dev should have at least  1 filtered tech 
+
+      const sendSocketMessageTo = findConnections(
+        { latitude, longitude },
+        techsArray
+      );
+  
+      sendMessage(sendSocketMessageTo, 'new-dev', dev);
     }
 
     return res.json(dev);
 
-  },
-
-  async update(req, res) {
-    // achar o usuario e atualizar as informações com as quais ele providenciou e manter as padrões
-    // caso ele não tenha alterado nenhuma
-
-  },
-
-  async delete() {},
+  }
 }

@@ -1,13 +1,21 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const routes = require('./routes');
 const cors = require('cors');
+const http = require('http');
+const { setupWebSocket } = require('./websocket');
+
+const app = express();
+const server = http.Server(app);
+
+setupWebSocket(server);
 
 mongoose.connect('mongodb+srv://omnistack:omnistack@cluster0-yrhdj.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true,
 });
+
 
 app.use(express.json());
 
@@ -15,8 +23,9 @@ app.use(cors());
 
 app.use(routes);
 
-
-app.listen(5000);
+server.listen(5000, () => {
+  console.log(`Running at PORT: 5000`)
+});
 
 
 // ----------------------------------------------------------------
